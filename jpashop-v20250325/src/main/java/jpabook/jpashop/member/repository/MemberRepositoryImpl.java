@@ -13,6 +13,7 @@ import java.util.List;
 public class MemberRepositoryImpl implements MemberRepository {
 	
 	// @PersistenceContext 이 어노테이션으로도 주입 가능
+	// @Autowired 생성자 주입 -> lombok 으로 생성자 구현
 	private final EntityManager em;
 	
 	@Override

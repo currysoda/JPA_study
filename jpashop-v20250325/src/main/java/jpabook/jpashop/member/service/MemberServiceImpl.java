@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	 * 회원가입
 	 */
 	@Override
-	@Transactional //변경
+	@Transactional // 변경
 	public Long join(Member member) {
 		
 		if (validateDuplicateMember(member))
@@ -44,20 +44,20 @@ public class MemberServiceImpl implements MemberService {
 	 * 전체 회원 조회
 	 */
 	@Override
-	public List<Member> findMembers() {
+	public List<Member> getAllMembers() {
 		return memberRepository.findAll();
 	}
 	
 	// 회원 한명 조회
 	@Override
-	public Member findOne(Long memberId) {
+	public Member getMemberByMemberId(Long memberId) {
 		return memberRepository.findOneByMemberId(memberId);
 	}
 	
 	// 회원 이름으로 조회
 	@Override
-	public Member findOneByName(String name) {
-		return memberRepository.findOneByMemberName(name);
+	public Member getMemberByMemberName(String memberName) {
+		return memberRepository.findOneByMemberName(memberName);
 	}
 	
 	@Override

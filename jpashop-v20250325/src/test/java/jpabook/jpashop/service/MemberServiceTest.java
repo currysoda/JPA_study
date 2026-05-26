@@ -7,17 +7,13 @@ import jpabook.jpashop.address.Address;
 import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.member.repository.MemberRepository;
 import jpabook.jpashop.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -114,7 +110,7 @@ public class MemberServiceTest {
 		@DisplayName("전체_회원_조회")
 		public void 전체_회원_조회() throws Exception {
 			//When
-			List<Member> members = memberService.findMembers();
+			List<Member> members = memberService.getAllMembers();
 			
 			//Then
 			assertThat(members).hasSize(10);
@@ -125,10 +121,10 @@ public class MemberServiceTest {
 		@DisplayName("id로_회원_조회")
 		public void id로_회원_조회() throws Exception {
 			//Given - setUp에서 저장된 memberName-0 을 이름으로 먼저 조회해 id 획득
-			Member saved = memberService.findOneByName("memberName-0");
+			Member saved = memberService.getMemberByMemberName("memberName-0");
 			
 			//When
-			Member found = memberService.findOne(saved.getId());
+			Member found = memberService.getMemberByMemberId(saved.getId());
 			
 			//Then
 			assertThat(found).isNotNull();
@@ -139,7 +135,7 @@ public class MemberServiceTest {
 		@DisplayName("이름으로_회원_조회")
 		public void 이름으로_회원_조회() throws Exception {
 			//When
-			Member found = memberService.findOneByName("memberName-5");
+			Member found = memberService.getMemberByMemberName("memberName-5");
 			
 			//Then
 			assertThat(found).isNotNull();
@@ -151,7 +147,7 @@ public class MemberServiceTest {
 		@DisplayName("존재하지_않는_이름으로_조회시_null반환")
 		public void 존재하지_않는_이름으로_조회시_null반환() throws Exception {
 			//When
-			Member found = memberService.findOneByName("없는사람");
+			Member found = memberService.getMemberByMemberName("없는사람");
 			
 			//Then
 			assertThat(found).isNull();
