@@ -34,11 +34,7 @@ public class OrderServiceImplTest {
 	@Test
 	public void 상품주문() throws Exception {
 		
-		//Given
 		
-		//When
-		
-		//Then
 	}
 	
 	@Test

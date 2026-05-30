@@ -8,9 +8,10 @@ import lombok.Getter;
 
 import jakarta.persistence.Embeddable;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.springframework.data.annotation.Immutable;
 
 @Embeddable
+@Immutable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

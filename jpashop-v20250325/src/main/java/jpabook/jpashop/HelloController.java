@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @Controller
 public class HelloController {
-
-    @GetMapping("hello")
-    public String hello(Model model) {
-        model.addAttribute("data", "hello!!");
+	
+	@GetMapping("/hello")
+	public String hello(Model model) {
+		model.addAttribute("data", "hello!!");
 		log.info("진입점 테스트 = {}", model.getAttribute("data"));
-        return "hello";
-    }
+		return "hello";
+	}
 }
