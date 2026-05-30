@@ -11,7 +11,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity(name = "Item")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -19,20 +18,26 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Item extends BaseEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "item_id")
 	private Long id;
-	
+
 	@Column(name = "item_name")
 	private String name;
-	
+
 	@Column(name = "item_price")
 	private Integer price;
-	
+
 	@Column(name = "item_stock_quantity")
 	private Integer stockQuantity;
+
+	protected Item(String name, Integer price, Integer stockQuantity) {
+		this.name = name;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+	}
 	
 	@OneToMany(mappedBy = "item")
 	private List<CategoryItem> categoryItems = new ArrayList<>();
