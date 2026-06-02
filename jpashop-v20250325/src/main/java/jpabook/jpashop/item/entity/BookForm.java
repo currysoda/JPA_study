@@ -1,4 +1,4 @@
-package jpabook.jpashop.item;
+package jpabook.jpashop.item.entity;
 
 import lombok.Getter;
 import lombok.Setter;

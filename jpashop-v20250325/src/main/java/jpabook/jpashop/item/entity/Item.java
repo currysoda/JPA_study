@@ -38,6 +38,13 @@ public abstract class Item extends BaseEntity {
 		this.price = price;
 		this.stockQuantity = stockQuantity;
 	}
+
+	//==비즈니스 로직==//
+	public void update(String name, Integer price, Integer stockQuantity) {
+		this.name = name;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+	}
 	
 	@OneToMany(mappedBy = "item")
 	private List<CategoryItem> categoryItems = new ArrayList<>();
