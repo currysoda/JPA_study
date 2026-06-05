@@ -12,15 +12,15 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-
+	
 	private final ItemRepository itemRepository;
-
+	
 	@Override
 	@Transactional
 	public void saveItem(Item item) {
 		itemRepository.save(item);
 	}
-
+	
 	/**
 	 * 영속성 컨텍스트가 자동 변경 (더티 체킹)
 	 */
@@ -30,14 +30,26 @@ public class ItemServiceImpl implements ItemService {
 		Item item = itemRepository.findOne(id);
 		item.update(name, price, stockQuantity);
 	}
-
+	
 	@Override
-	public List<Item> findItems() {
+	public List<Item> getItems() {
 		return itemRepository.findAll();
 	}
-
+	
 	@Override
-	public Item findOne(Long itemId) {
+	public Item getItem(Long itemId) {
 		return itemRepository.findOne(itemId);
+	}
+	
+	@Override
+	public Item getItemByName(String name) {
+		return itemRepository.findOneByName(name);
+	}
+	
+	@Override
+	@Transactional
+	public void restock(Long id, int stockQuantity) {
+		Item item = itemRepository.findOne(id);
+		item.restock(stockQuantity);
 	}
 }

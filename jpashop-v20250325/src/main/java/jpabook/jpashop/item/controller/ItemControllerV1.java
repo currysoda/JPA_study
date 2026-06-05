@@ -14,16 +14,16 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ItemControllerV1 implements ItemController {
-
+	
 	private final ItemService itemService;
-
+	
 	@Override
 	@GetMapping(value = "/items/new")
 	public String createForm(Model model) {
 		model.addAttribute("form", new BookForm());
 		return "items/createItemForm";
 	}
-
+	
 	@Override
 	@PostMapping(value = "/items/new")
 	public String create(BookForm form) {
@@ -34,24 +34,24 @@ public class ItemControllerV1 implements ItemController {
 		                .author(form.getAuthor())
 		                .isbn(form.getIsbn())
 		                .build();
-
+		
 		itemService.saveItem(book);
 		return "redirect:/items";
 	}
-
+	
 	@Override
 	@GetMapping(value = "/items")
 	public String list(Model model) {
-		List<Item> items = itemService.findItems();
+		List<Item> items = itemService.getItems();
 		model.addAttribute("items", items);
 		return "items/itemList";
 	}
-
+	
 	@Override
 	@GetMapping(value = "/items/{itemId}/edit")
 	public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
-		Book item = (Book) itemService.findOne(itemId);
-
+		Book item = (Book) itemService.getItem(itemId);
+		
 		BookForm form = new BookForm();
 		form.setId(item.getId());
 		form.setName(item.getName());
@@ -59,11 +59,11 @@ public class ItemControllerV1 implements ItemController {
 		form.setStockQuantity(item.getStockQuantity());
 		form.setAuthor(item.getAuthor());
 		form.setIsbn(item.getIsbn());
-
+		
 		model.addAttribute("form", form);
 		return "items/updateItemForm";
 	}
-
+	
 	@Override
 	@PostMapping(value = "/items/{itemId}/edit")
 	public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {

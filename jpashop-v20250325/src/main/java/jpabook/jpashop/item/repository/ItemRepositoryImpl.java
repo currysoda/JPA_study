@@ -10,23 +10,34 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class ItemRepositoryImpl implements ItemRepository {
-
+	
 	private final EntityManager em;
-
+	
 	@Override
 	public void save(Item item) {
-		if (item.getId() == null) {
+		if (item.getId() == null)
+		{
 			em.persist(item);
-		} else {
+		}
+		else
+		{
 			em.merge(item);
 		}
 	}
-
+	
 	@Override
 	public Item findOne(Long id) {
 		return em.find(Item.class, id);
 	}
-
+	
+	@Override
+	public Item findOneByName(String name) {
+		List<Item> result = em.createQuery("select i from Item i where i.name = :name", Item.class)
+		                      .setParameter("name", name)
+		                      .getResultList();
+		return result.isEmpty() ? null : result.get(0);
+	}
+	
 	@Override
 	public List<Item> findAll() {
 		return em.createQuery("select i from Item i", Item.class).getResultList();
