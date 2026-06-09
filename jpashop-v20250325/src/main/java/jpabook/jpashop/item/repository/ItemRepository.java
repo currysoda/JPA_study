@@ -9,7 +9,7 @@ public interface ItemRepository {
 	// 등록
 	void save(Item item);
 	
-	// 찾기
+	// 조회
 	Item findOne(Long id);
 	
 	Item findOneByName(String name);
