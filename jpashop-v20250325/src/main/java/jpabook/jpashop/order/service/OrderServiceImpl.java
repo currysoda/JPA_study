@@ -2,6 +2,7 @@ package jpabook.jpashop.order.service;
 
 import java.util.List;
 import jpabook.jpashop.item.repository.ItemRepository;
+import jpabook.jpashop.member.repository.MemberRepository;
 import jpabook.jpashop.member.repository.MemberRepositoryImpl;
 import jpabook.jpashop.order.entity.Order;
 import jpabook.jpashop.order.entity.OrderSearch;
@@ -15,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 	
-	private final MemberRepositoryImpl memberRepositoryImpl;
-	private final OrderRepository      orderRepository;
-	private final ItemRepository       itemRepository;
+	private final MemberRepository memberRepositoryImpl;
+	private final OrderRepository  orderRepository;
+	private final ItemRepository   itemRepository;
 	
 	/**
 	 * 주문

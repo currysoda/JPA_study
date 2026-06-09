@@ -3,7 +3,7 @@ package jpabook.jpashop.order.entity;
 import jakarta.annotation.Nonnull;
 import java.util.UUID;
 import jpabook.jpashop.common.BaseEntity;
-import jpabook.jpashop.delivery.entity.Delivery;
+import jpabook.jpashop.shipping.entity.Shipping;
 import jpabook.jpashop.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,11 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "orders",
-       uniqueConstraints = @UniqueConstraint(
-	       name = "uk_order_number",        // 제약 조건 이름
-	       columnNames = {"order_number"}
-       ))
+@Table(name = "orders")
 @Entity(name = "Order")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,32 +26,34 @@ public class Order extends BaseEntity {
 	@Column(name = "order_id")
 	private Long id; // DB 용 id
 	
-	@Column(name = "order_number")
+	@Column(name = "order_number", unique = true)
 	private String orderNumber; // 고객이 볼 주문번호
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
-	private Member member; //주문 회원
+	private Member member; // 주문 회원
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrderItem> orderItems = new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "delivery_id")
-	private Delivery delivery; //배송정보
+	@JoinColumn(name = "shipping_id")
+	private Shipping shipping; // 배송정보
 	
 	@Column(name = "order_date")
-	private LocalDateTime orderDate; //주문시간
+	private LocalDateTime orderDate; // 주문시간
 	
 	@Column(name = "order_status")
 	@Enumerated(EnumType.STRING)
-	private OrderStatus status; //주문상태 [ORDER, CANCEL]
+	private OrderStatus status; // 주문상태 [ORDER, CANCEL]
 	
+	// ==생성 메서드(Factory Method)==
 	@Builder
-	public Order(@Nonnull Member member) {
+	public Order(@Nonnull Member member, @Nonnull Shipping shipping) {
 		this.member = member;
 		this.status = OrderStatus.ORDER;
 		this.orderDate = LocalDateTime.now();
+		this.shipping = shipping;
 		makeOrderNumber();
 	}
 	
@@ -74,7 +72,7 @@ public class Order extends BaseEntity {
 	
 	//==연관관계 메서드==//
 	// Member-Order
-	public void addMember(Member member) {
+	public void setMember(Member member) {
 		this.member = member;
 		member.getOrders().add(this);
 	}
@@ -86,11 +84,22 @@ public class Order extends BaseEntity {
 	}
 	
 	// order-delivery
-	public void setDelivery(Delivery delivery) {
-		delivery.setOrder(this);
-		this.delivery = delivery;
+	public void setShipping(Shipping shipping) {
+		shipping.setOrder(this);
+		this.shipping = shipping;
+	}
+	
+	// order-orderitem
+	public void addOrderItems() {
+	
 	}
 	
 	//==비즈니스 로직==//
 	// 비즈니스 로직은 파일 분리
+	
+	// 어떤 아이템 몇개 주문
+	
+	// 주문 취소
+	
+	// ==조회 로직(Query Logic)==
 }

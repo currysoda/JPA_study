@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Item")
+@Table(name = "item")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 @Getter
