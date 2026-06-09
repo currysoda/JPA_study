@@ -23,8 +23,8 @@ import java.util.List;
 @SpringBootTest
 @Slf4j
 @Transactional
-@Rollback(false) // DB에서 결과 직접 확인하고 싶을 때 주석 해제
-@Commit
+// @Rollback(false) // DB에서 결과 직접 확인하고 싶을 때 주석 해제 / 전체 테스트할때 주석 처리
+// @Commit // DB에서 결과 직접 확인하고 싶을 때 주석 해제 / 전체 테스트할때 주석 처리
 @DisplayName("ItemService 전체 테스트")
 public class ItemServiceTest {
 	
@@ -48,7 +48,7 @@ public class ItemServiceTest {
 	
 	@Nested
 	@DisplayName("아이템 저장")
-		// @Rollback // 아래 테스트 할때 주석 풀어야함
+	@Rollback // 아래 테스트 할때 주석 풀어야함
 	class 아이템_저장 {
 		
 		@Test
@@ -102,6 +102,7 @@ public class ItemServiceTest {
 	
 	@Nested
 	@DisplayName("아이템 조회")
+	@Rollback
 	class 아이템_조회 {
 		
 		@Test
@@ -118,17 +119,15 @@ public class ItemServiceTest {
 		@Test
 		@DisplayName("id로_아이템_조회_성공")
 		public void id로_아이템_조회_성공() {
-			// Given - setUp에서 저장된 book-3 을 이름으로 먼저 조회해 id 획득
-			Item saved = itemService.getItemByName("book-3");
-			Long id    = saved.getId();
+			// Given - @BeforeEach 에서 삽입한 데이터로 조회
 			
-			// When
-			Item found = itemService.getItem(id);
+			// When - name 으로 조회 (id 값은 시퀸스 초기화 안되서 예측이 어려움)
+			Item item = itemService.getItemByName("book-0");
 			
-			// Then
-			assertThat(found).isNotNull();
-			assertThat(found.getName()).isEqualTo("book-3");
-			assertThat(found.getPrice()).isEqualTo(13000);
+			// Then - null 아니고 조회 성공
+			assertThat(item).isNotNull();
+			assertThat(item.getName()).isEqualTo("book-0");
+			assertThat(item.getPrice()).isEqualTo(10000);
 		}
 		
 		@Test
@@ -167,6 +166,7 @@ public class ItemServiceTest {
 	
 	@Nested
 	@DisplayName("재고 관리")
+	@Rollback
 	class 재고_관리 {
 		
 		@Test
