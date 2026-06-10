@@ -30,11 +30,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 	}
 	
 	public List<Order> findAllByString(OrderSearch orderSearch) {
-		// language=JPQL
+		// JPQL
 		String  jpql             = "select o From Order o join o.member m";
 		boolean isFirstCondition = true;
 		
-		//주문 상태 검색
+		// 주문 상태 검색
 		if (orderSearch.getOrderStatus() != null)
 		{
 			if (isFirstCondition)
@@ -104,5 +104,22 @@ public class OrderRepositoryImpl implements OrderRepository {
 		cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
 		TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
 		return query.getResultList();
+	}
+	
+	@Override
+	public Order findOneByOrderNumber(String orderNumber) {
+		List<Order> list = em.createQuery(
+			                     "select o from Order o where o.orderNumber = :orderNumber", Order.class) // JPQL, orderNumber 일치 조회
+		                     .setParameter("orderNumber", orderNumber)
+		                     .getResultList();
+		return list.isEmpty() ? null : list.get(0); // 결과 없으면 null 반환
+	}
+	
+	@Override
+	public List<Order> findAllByMember(Member member) {
+		return em.createQuery(
+			         "select o from Order o where o.member = :member", Order.class) // 특정 회원의 전체 주문 조회
+		         .setParameter("member", member)
+		         .getResultList();
 	}
 }

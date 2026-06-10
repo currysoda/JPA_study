@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import jpabook.jpashop.item.entity.Item;
 import jakarta.persistence.*;
@@ -23,29 +22,31 @@ public class OrderItem extends BaseEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_id")
-	private Item item;      //주문 상품
+	private Item item;      // 상품
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")
-	private Order order;    //주문
+	private Order order;    // 주문
 	
-	@Column(name = "order_item_per_price")
-	private Integer orderPrice; // 개당 가격
+	@Column(name = "order_item_price")
+	private Integer price; // 주문 당시 가격
 	
-	@Column(name = "order_item_quantity")
-	private Integer quantity; //주문 수량
+	@Column
+	private Integer quantity; // 주문 갯수
 	
 	//==생성 메서드==//
 	@Builder
-	public OrderItem(Integer orderPrice, Integer quantity) {
-		this.orderPrice = orderPrice;
+	public OrderItem(Order order, Item item, Integer quantity) {
+		this.order = order;
+		this.item = item;
+		this.price = item.getPrice(); // 할인 정책은 없다고 가정함
 		this.quantity = quantity;
+		item.removeStock(quantity);
+		setOrderItem(order, item);
 	}
 	
 	// 연관관계 메소드
-	public void addOrderItem(Item item, Order order) {
-		this.item = item;
-		this.order = order;
+	public void setOrderItem(Order order, Item item) {
 		item.getOrderItems().add(this);
 		order.getOrderItems().add(this);
 	}

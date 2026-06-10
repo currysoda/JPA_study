@@ -1,5 +1,6 @@
 package jpabook.jpashop.order.repository;
 
+import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.order.entity.Order;
 import jpabook.jpashop.order.entity.OrderSearch;
 
@@ -15,5 +16,7 @@ public interface OrderRepository {
 	
 	List<Order> findAllByCriteria(OrderSearch orderSearch);
 	
-	List<Order> findOneByOrderNumber(String orderNumber);
+	Order findOneByOrderNumber(String orderNumber);
+	
+	List<Order> findAllByMember(Member member);
 }

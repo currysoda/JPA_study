@@ -17,5 +17,6 @@ DESCRIBE 테이블명;
 
 EXPLAIN SELECT * FROM 테이블명;
 
+-- 멤버 전부 삭제
 delete
 from member;

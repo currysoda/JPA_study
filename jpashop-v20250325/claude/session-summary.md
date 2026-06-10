@@ -1,3 +1,45 @@
+# 세션 요약 (2026-06-11)
+
+## 완료된 작업
+
+### Order 도메인 구현
+
+**OrderRepositoryImpl**
+- `findOneByOrderNumber` 구현 (JPQL)
+- `findAllByMember` 추가 (JPQL)
+
+**OrderService 인터페이스**
+- `createOrder` 시그니처 변경: `(Member)` → `(Long memberId, Long itemId, int count, Shipping shipping)`
+- 반환타입 `void` → `Long` (생성된 order id 반환)
+
+**OrderServiceImpl**
+- 전체 메서드 구현 완료
+- 다른 도메인 접근: Repository 직접 접근 → Service 경유로 변경 (MemberService, ItemService)
+
+**Order 엔티티**
+- builder 생성자에 `member.getOrders().add(this)` 추가 (양방향 연관관계 자동 처리)
+
+**OrderItem 엔티티**
+- `item.removeStock(quantity)` 추가 (사용자 직접)
+
+**OrderServiceImplTest**
+- `@Nested` 구조: 주문_생성 / 주문_예외 / 주문_조회
+- `@BeforeEach`: test-member + test-book(재고 10) 생성
+
+### 결정 사항
+- 다른 도메인 접근은 항상 Service 인터페이스 경유 (Repository 직접 접근 금지)
+- `OrderItem`은 `Order` Aggregate 하위 → 별도 Repository/Service 없음
+- `cancelOrder` 스킵 (학습용 프로젝트)
+- `Order.orderQuantity` 제거 논의됨 → 미처리
+
+### 학습 개념
+- Aggregate Root: Order가 Root, OrderItem은 child entity → Repository는 Root에만
+- 동적 쿼리: JPQL 문자열 조합 vs Criteria API (실무는 QueryDSL)
+- Service 레이어가 엔티티 조립 책임 (Controller에 로직 새지 않도록)
+- Saga + EDA: MSA 도메인 간 통신 패턴 이름
+
+---
+
 # 세션 요약 (2026-05-27)
 
 ## 프로젝트 개요

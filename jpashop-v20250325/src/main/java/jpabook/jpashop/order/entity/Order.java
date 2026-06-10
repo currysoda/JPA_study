@@ -54,6 +54,7 @@ public class Order extends BaseEntity {
 		this.status = OrderStatus.ORDER;
 		this.orderDate = LocalDateTime.now();
 		this.shipping = shipping;
+		member.getOrders().add(this); // 양방향 연관관계 - member.orders 에도 추가
 		makeOrderNumber();
 	}
 	
@@ -89,17 +90,17 @@ public class Order extends BaseEntity {
 		this.shipping = shipping;
 	}
 	
-	// order-orderitem
-	public void addOrderItems() {
-	
-	}
+	// order-orderItem
+	// orderItem.get() 으로 받아서 넣으면 됨
 	
 	//==비즈니스 로직==//
-	// 비즈니스 로직은 파일 분리
+	// 모두 구현하면 너무 많으니 적당히만 구현
 	
 	// 어떤 아이템 몇개 주문
 	
 	// 주문 취소
+	
+	// 주문 수량 변경
 	
 	// ==조회 로직(Query Logic)==
 }
