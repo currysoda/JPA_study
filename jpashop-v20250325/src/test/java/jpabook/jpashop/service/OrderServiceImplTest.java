@@ -61,7 +61,7 @@ public class OrderServiceImplTest {
 	
 	@Nested
 	@DisplayName("주문 생성")
-		// @Rollback // 테스트 후 롤백 - DB에서 확인하고 싶으면 주석 처리
+	@Rollback // 테스트 후 롤백 - DB에서 확인하고 싶으면 주석 처리
 	class 주문_생성 {
 		
 		@Test
@@ -127,7 +127,7 @@ public class OrderServiceImplTest {
 	
 	@Nested
 	@DisplayName("주문 예외")
-	@Rollback // 테스트 후 롤백 - DB에서 확인하고 싶으면 주석 처리
+	@Rollback // 예외 발생 코드는 무조건 롤백해야함 => 커밋시도시 테스트 실패
 	class 주문_예외 {
 		
 		@Test
@@ -149,7 +149,7 @@ public class OrderServiceImplTest {
 	
 	@Nested
 	@DisplayName("주문 조회")
-	@Rollback // 테스트 후 롤백 - DB에서 확인하고 싶으면 주석 처리
+		// @Rollback // 테스트 후 롤백 - DB에서 확인하고 싶으면 주석 처리
 	class 주문_조회 {
 		
 		@Test
