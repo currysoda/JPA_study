@@ -1,7 +1,7 @@
 package jpabook.jpashop.member.controller;
 
 import jpabook.jpashop.address.Address;
-import jpabook.jpashop.member.entity.MemberForm;
+import jpabook.jpashop.member.controller.dto.MemberForm;
 import jpabook.jpashop.member.service.MemberService;
 import jpabook.jpashop.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +24,15 @@ public class MemberControllerV1 implements MemberController {
 	@GetMapping(value = "/members/new")
 	@Override
 	public String createForm(Model model) {
-		model.addAttribute("memberForm", new MemberForm());
+		model.addAttribute("memberForm", MemberForm.builder().build()); // 빈 폼 렌더링용 (모든 필드 null)
 		return "members/createMemberForm";
 	}
 	
 	@PostMapping(value = "/members/new")
 	@Override
-	public String create(@Valid MemberForm form, BindingResult result) {
+	public String create(@Valid MemberForm form, BindingResult memberFormResult) {
 		
-		if (result.hasErrors())
+		if (memberFormResult.hasErrors())
 		{
 			return "members/createMemberForm";
 		}

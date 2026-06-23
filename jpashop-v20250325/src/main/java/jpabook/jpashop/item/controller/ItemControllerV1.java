@@ -1,7 +1,7 @@
 package jpabook.jpashop.item.controller;
 
 import jpabook.jpashop.item.entity.Book;
-import jpabook.jpashop.item.entity.BookForm;
+import jpabook.jpashop.item.controller.dto.BookForm;
 import jpabook.jpashop.item.entity.Item;
 import jpabook.jpashop.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class ItemControllerV1 implements ItemController {
 	@Override
 	@GetMapping(value = "/items/new")
 	public String createForm(Model model) {
-		model.addAttribute("form", new BookForm());
+		model.addAttribute("form", BookForm.builder().build()); // 빈 폼 렌더링용 (모든 필드 null)
 		return "items/createItemForm";
 	}
 	
@@ -52,13 +52,14 @@ public class ItemControllerV1 implements ItemController {
 	public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
 		Book item = (Book) itemService.getItem(itemId);
 		
-		BookForm form = new BookForm();
-		form.setId(item.getId());
-		form.setName(item.getName());
-		form.setPrice(item.getPrice());
-		form.setStockQuantity(item.getStockQuantity());
-		form.setAuthor(item.getAuthor());
-		form.setIsbn(item.getIsbn());
+		BookForm form = BookForm.builder()
+		                        .id(item.getId())
+		                        .name(item.getName())
+		                        .price(item.getPrice())
+		                        .stockQuantity(item.getStockQuantity())
+		                        .author(item.getAuthor())
+		                        .isbn(item.getIsbn())
+		                        .build();
 		
 		model.addAttribute("form", form);
 		return "items/updateItemForm";
@@ -66,7 +67,7 @@ public class ItemControllerV1 implements ItemController {
 	
 	@Override
 	@PostMapping(value = "/items/{itemId}/edit")
-	public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
+	public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute("form") BookForm form) {
 		itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 		return "redirect:/items";
 	}

@@ -23,6 +23,7 @@ public class ItemServiceImpl implements ItemService {
 	
 	/**
 	 * 영속성 컨텍스트가 자동 변경 (더티 체킹)
+	 * 병합(merge) 대신 변경 감지(id 로 조회후 변경값 바꾸기)
 	 */
 	@Override
 	@Transactional

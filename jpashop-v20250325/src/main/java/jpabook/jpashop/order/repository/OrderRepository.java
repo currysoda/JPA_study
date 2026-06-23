@@ -2,7 +2,7 @@ package jpabook.jpashop.order.repository;
 
 import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.order.entity.Order;
-import jpabook.jpashop.order.entity.OrderSearch;
+import jpabook.jpashop.order.controller.dto.OrderSearch;
 
 import java.util.List;
 

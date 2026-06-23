@@ -1,5 +1,6 @@
-package jpabook.jpashop.order.entity;
+package jpabook.jpashop.order.controller.dto;
 
+import jpabook.jpashop.order.entity.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 
