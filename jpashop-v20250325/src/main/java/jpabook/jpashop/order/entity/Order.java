@@ -1,11 +1,12 @@
 package jpabook.jpashop.order.entity;
 
-import jakarta.annotation.Nonnull;
+
 import java.util.UUID;
 import jpabook.jpashop.common.BaseEntity;
 import jpabook.jpashop.shipping.entity.Shipping;
 import jpabook.jpashop.member.entity.Member;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,7 +50,7 @@ public class Order extends BaseEntity {
 	
 	// ==생성 메서드(Factory Method)==
 	@Builder
-	public Order(@Nonnull Member member, @Nonnull Shipping shipping) {
+	public Order(@NonNull Member member, @NonNull Shipping shipping) {
 		this.member = member;
 		this.status = OrderStatus.ORDER;
 		this.orderDate = LocalDateTime.now();

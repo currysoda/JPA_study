@@ -1,6 +1,6 @@
 package jpabook.jpashop.member.controller;
 
-import jpabook.jpashop.member.controller.dto.MemberForm;
+import jpabook.jpashop.member.controller.v1.dto.MemberForm;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 

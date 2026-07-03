@@ -1,7 +1,8 @@
-package jpabook.jpashop.member.controller;
+package jpabook.jpashop.member.controller.v1;
 
 import jpabook.jpashop.address.Address;
-import jpabook.jpashop.member.controller.dto.MemberForm;
+import jpabook.jpashop.member.controller.MemberController;
+import jpabook.jpashop.member.controller.v1.dto.MemberForm;
 import jpabook.jpashop.member.service.MemberService;
 import jpabook.jpashop.member.entity.Member;
 import lombok.RequiredArgsConstructor;
