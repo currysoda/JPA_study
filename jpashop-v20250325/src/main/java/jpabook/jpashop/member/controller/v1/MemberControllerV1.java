@@ -33,6 +33,7 @@ public class MemberControllerV1 implements MemberController {
 	@Override
 	public String create(@Valid MemberForm form, BindingResult memberFormResult) {
 		
+		// form 에 문제가 있으면 잡아냄
 		if (memberFormResult.hasErrors())
 		{
 			return "members/createMemberForm";

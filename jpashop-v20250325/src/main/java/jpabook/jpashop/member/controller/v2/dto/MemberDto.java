@@ -1,8 +1,10 @@
 package jpabook.jpashop.member.controller.v2.dto;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import jpabook.jpashop.address.Address;
+import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.order.entity.Order;
 import lombok.Builder;
 import lombok.ToString;
@@ -18,6 +20,25 @@ public record MemberDto(
 	Address address,
 	List<OrderDto> orders
 ) {
+	
+	public static MemberDto from(Member member) {
+		
+		List<Order>    tempOrders   = member.getOrders();
+		List<OrderDto> tempOrderDto = new ArrayList<>();
+		for (Order o : tempOrders)
+		{
+			tempOrderDto.add(OrderDto.from(o));
+		}
+		
+		tempOrderDto = List.copyOf(tempOrderDto);
+		
+		return MemberDto.builder()
+		                .id(member.getId())
+		                .name(member.getName())
+		                .address(member.getAddress())
+		                .orders(tempOrderDto)
+		                .build();
+	}
 	
 	@Builder  // 생성자(constructor) 레벨에 적용
 	public MemberDto {
