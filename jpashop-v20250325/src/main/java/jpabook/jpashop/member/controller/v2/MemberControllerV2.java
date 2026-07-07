@@ -1,8 +1,10 @@
 package jpabook.jpashop.member.controller.v2;
 
+import java.util.ArrayList;
 import jpabook.jpashop.address.Address;
 import jpabook.jpashop.member.controller.MemberController;
 import jpabook.jpashop.member.controller.v1.dto.MemberForm;
+import jpabook.jpashop.member.controller.v2.dto.MemberDto;
 import jpabook.jpashop.member.service.MemberService;
 import jpabook.jpashop.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,32 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * V2 는 Entity 직접 반환 하지않고 DTO 를 이용하는 것이 핵심
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/member")
 public class MemberControllerV2 implements MemberController {
 	
 	private final MemberService memberService;
+	
+	// DTO 사용패턴 V2 에서 제일 중요한것 entity 직접사용X
+	@GetMapping(value = "/members")
+	@Override
+	public String list(Model model) {
+		List<MemberDto> members = new ArrayList<>();
+		
+		List<Member> allMembers = memberService.getAllMembers();
+		
+		for (Member m : allMembers)
+		{
+			members.add(MemberDto.from(m));
+		}
+		
+		model.addAttribute("members", members);
+		return "members/memberList";
+	}
 	
 	@GetMapping(value = "/members/new")
 	@Override
@@ -51,11 +73,5 @@ public class MemberControllerV2 implements MemberController {
 		return "redirect:/";
 	}
 	
-	@GetMapping(value = "/members")
-	@Override
-	public String list(Model model) {
-		List<Member> members = memberService.getAllMembers();
-		model.addAttribute("members", members);
-		return "members/memberList";
-	}
+	
 }
