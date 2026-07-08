@@ -19,4 +19,6 @@ public interface OrderRepository {
 	Order findOneByOrderNumber(String orderNumber);
 	
 	List<Order> findAllByMember(Member member);
+	
+	List<Order> findAllWithOrderItems();
 }

@@ -122,4 +122,14 @@ public class OrderRepositoryImpl implements OrderRepository {
 		         .setParameter("member", member)
 		         .getResultList();
 	}
+	
+	/**
+	 * fetch join 을
+	 *
+	 * @return list<Order>
+	 */
+	@Override
+	public List<Order> findAllWithOrderItems() {
+	
+	}
 }

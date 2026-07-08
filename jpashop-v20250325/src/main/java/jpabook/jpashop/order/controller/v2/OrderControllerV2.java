@@ -1,25 +1,40 @@
-package jpabook.jpashop.order.controller;
+package jpabook.jpashop.order.controller.v2;
 
+import java.util.List;
 import jpabook.jpashop.item.entity.Item;
 import jpabook.jpashop.item.service.ItemService;
 import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.member.service.MemberService;
+import jpabook.jpashop.order.controller.OrderController;
 import jpabook.jpashop.order.controller.dto.OrderSearch;
 import jpabook.jpashop.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class OrderControllerV1 implements OrderController {
+@RequestMapping("/api/v2/order")
+public class OrderControllerV2 implements OrderController {
 	
 	private final OrderService  orderService;
 	private final MemberService memberService;
 	private final ItemService   itemService;
+	
+	// entity 직접 import 제거하고 dto 사용
+	@Override
+	@GetMapping(value = "/orders")
+	public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
+		// List<Order> orders = orderService.findOrders(orderSearch);
+		// model.addAttribute("orders", orders);
+		return "order/orderList";
+	}
 	
 	@Override
 	@GetMapping(value = "/order")
@@ -43,13 +58,6 @@ public class OrderControllerV1 implements OrderController {
 		return "redirect:/orders";
 	}
 	
-	@Override
-	@GetMapping(value = "/orders")
-	public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
-		// List<Order> orders = orderService.findOrders(orderSearch);
-		// model.addAttribute("orders", orders);
-		return "order/orderList";
-	}
 	
 	@Override
 	@PostMapping(value = "/orders/{orderId}/cancel")
