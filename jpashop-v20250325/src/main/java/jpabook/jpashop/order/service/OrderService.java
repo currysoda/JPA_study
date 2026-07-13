@@ -16,4 +16,6 @@ public interface OrderService {
 	Order getOrderByOrderNumber(String orderNumber);
 	
 	List<Order> getOrderListByMember(Member member);
+	
+	List<Order> getAllOrders();
 }

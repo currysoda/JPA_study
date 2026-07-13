@@ -40,7 +40,9 @@ public record MemberDto(
 		                .build();
 	}
 	
-	@Builder  // 생성자(constructor) 레벨에 적용
+	// compact constructor = canonical constructor (record 고유 문법)
+	// new MemberDto(...) 직접 호출이든 builder().build() 든 항상 이 로직을 거침
+	@Builder
 	public MemberDto {
 		orders = (orders == null) ? List.of() : List.copyOf(orders);  // 방어적 복사(defensive copy)
 	}

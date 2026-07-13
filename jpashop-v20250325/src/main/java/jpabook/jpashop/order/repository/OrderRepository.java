@@ -20,5 +20,5 @@ public interface OrderRepository {
 	
 	List<Order> findAllByMember(Member member);
 	
-	List<Order> findAllWithOrderItems();
+	List<Order> findAllWithMember();
 }

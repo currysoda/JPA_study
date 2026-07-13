@@ -124,12 +124,13 @@ public class OrderRepositoryImpl implements OrderRepository {
 	}
 	
 	/**
-	 * fetch join 을
+	 * fetch join 을 사용하는 예제(fetch join으로 Order 조회 시 Member 함께 즉시 로딩 (N+1 방지))
 	 *
 	 * @return list<Order>
 	 */
 	@Override
-	public List<Order> findAllWithOrderItems() {
-	
+	public List<Order> findAllWithMember() {
+		return em.createQuery("select o from Order o join fetch o.member m", Order.class)
+		         .getResultList();
 	}
 }

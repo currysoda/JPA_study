@@ -3,15 +3,18 @@ package jpabook.jpashop.shipping.entity;
 import jpabook.jpashop.address.Address;
 import jpabook.jpashop.common.BaseEntity;
 import jpabook.jpashop.order.entity.Order;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Table(name = "shipping")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Shipping extends BaseEntity {
 	
 	@Id
@@ -19,8 +22,8 @@ public class Shipping extends BaseEntity {
 	@Column(name = "shipping_id")
 	private Long id;
 	
-	@OneToOne(mappedBy = "shipping", fetch = FetchType.LAZY)
 	@Setter
+	@OneToOne(mappedBy = "shipping", fetch = FetchType.LAZY)
 	private Order order;
 	
 	@Embedded
@@ -43,7 +46,4 @@ public class Shipping extends BaseEntity {
 		this.address = address;
 	}
 	
-	public void setOrder(Order order) {
-		this.order = order;
-	}
 }

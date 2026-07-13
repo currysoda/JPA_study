@@ -1,5 +1,6 @@
 package jpabook.jpashop.order.controller.v2;
 
+import java.util.ArrayList;
 import java.util.List;
 import jpabook.jpashop.item.entity.Item;
 import jpabook.jpashop.item.service.ItemService;
@@ -7,6 +8,8 @@ import jpabook.jpashop.member.entity.Member;
 import jpabook.jpashop.member.service.MemberService;
 import jpabook.jpashop.order.controller.OrderController;
 import jpabook.jpashop.order.controller.dto.OrderSearch;
+import jpabook.jpashop.order.controller.v2.dto.OrderDto;
+import jpabook.jpashop.order.entity.Order;
 import jpabook.jpashop.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,8 +20,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+/**
+ * v2 의 핵심은 entity 직접 import 를 제거하고 dto 로 전환하는 것이 핵심
+ * fetch join 예제는 repo-service layer 에서
+ */
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/order")
 public class OrderControllerV2 implements OrderController {
@@ -27,12 +35,17 @@ public class OrderControllerV2 implements OrderController {
 	private final MemberService memberService;
 	private final ItemService   itemService;
 	
-	// entity 직접 import 제거하고 dto 사용
+	// entity 직접 import 제거하고 dto 사용 예제
 	@Override
 	@GetMapping(value = "/orders")
 	public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
-		// List<Order> orders = orderService.findOrders(orderSearch);
-		// model.addAttribute("orders", orders);
+		
+		List<OrderDto> dtoList = new ArrayList<>();
+		for (Order o : orderService.getAllOrders())
+		{
+			dtoList.add(OrderDto.from(o));
+		}
+		model.addAttribute("orders", dtoList);
 		return "order/orderList";
 	}
 	

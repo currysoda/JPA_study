@@ -63,4 +63,9 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> getOrderListByMember(Member member) {
 		return orderRepository.findAllByMember(member);
 	}
+	
+	@Override
+	public List<Order> getAllOrders() {
+		return orderRepository.findAllWithMember();
+	}
 }
